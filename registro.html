@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Registro EduConecta</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header><div class="logo"><div class="mark">EC</div>EduConecta</div></header>
+<main>
+<div class="card">
+<h2>Registro / Login</h2>
+<select id="role"><option value="student">Estudiante</option><option value="tutor">Tutor</option></select>
+<input type="text" id="name" placeholder="Tu nombre">
+<input type="text" id="subject" placeholder="Materia (ej: Matemáticas)">
+<button class="btn btn-primary" id="registerBtn">Registrarse</button>
+</div>
+</main>
+<script>
+const registerBtn = document.getElementById('registerBtn');
+registerBtn.addEventListener('click', ()=>{
+const name = document.getElementById('name').value.trim();
+const role = document.getElementById('role').value;
+const subject = document.getElementById('subject').value.trim();
+if(!name){alert('Ingresa tu nombre'); return;}
+const session = {name, role, subject};
+localStorage.setItem('educonecta_session', JSON.stringify(session));
+alert('Registrado correctamente!');
+window.location.href='dashboard.html';
+});
+</script>
+</body>
+</html>

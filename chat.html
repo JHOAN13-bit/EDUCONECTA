@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Chat EduConecta</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header><div class="logo"><div class="mark">EC</div>EduConecta</div></header>
+<main>
+<div class="card">
+<h2>Chat Simulado</h2>
+<div class="messages" id="messages"></div>
+<input type="text" id="msgInput" placeholder="Escribe un mensaje...">
+<button class="btn btn-primary" id="sendBtn">Enviar</button>
+</div>
+</main>
+<script>
+const session = JSON.parse(localStorage.getItem('educonecta_session'));
+if(!session){window.location.href='registro.html';}
+const messagesDiv = document.getElementById('messages');
+const msgInput = document.getElementById('msgInput');
+const sendBtn = document.getElementById('sendBtn');
+function renderMessages(){
+const chat = JSON.parse(localStorage.getItem('educonecta_chat')||'[]');
+messagesDiv.innerHTML='';
+chat.forEach(m=>{
+const el = document.createElement('div');
+el.innerHTML = `<strong>${m.name} (${m.role})</strong>: ${m.text}`;
+messagesDiv.appendChild(el);
+});
+messagesDiv.scrollTop = messagesDiv.scrollHeight;
+}
+sendBtn.addEventListener('click', ()=>{
+const txt = msgInput.value.trim(); if(!txt) return;
+const chat = JSON.parse(localStorage.getItem('educonecta_chat')||'[]');
+chat.push({name:session.name, role:session.role, text:txt});
+localStorage.setItem('educonecta_chat', JSON.stringify(chat));
+msgInput.value=''; renderMessages();
+});
+renderMessages();
+</script>
+</body>
+</html>
